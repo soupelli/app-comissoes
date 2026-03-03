@@ -2,32 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6366f1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Comissões PRO</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyC0I8tWPVrHLxzhxja7gKgK9jKu9nRVZR8",
-            authDomain: "app-comissoes.firebaseapp.com",
-            projectId: "app-comissoes",
-            storageBucket: "app-comissoes.firebasestorage.app",
-            messagingSenderId: "223601290975",
-            appId: "1:223601290975:web:0e2197a34999d28f58036a"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        window.firebase = { db, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where };
-    </script>
-
     <style>
         * {
             margin: 0;
@@ -45,22 +24,17 @@
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
             --gray-600: #4b5563;
             --gray-700: #374151;
-            --gray-800: #1f2937;
             --gray-900: #111827;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--gray-50);
             color: var(--gray-900);
-            overflow-x: hidden;
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* ========== LOGIN SCREEN ========== */
         .login-screen {
             min-height: 100vh;
             display: flex;
@@ -98,7 +72,6 @@
 
         .logo h1 {
             font-size: 28px;
-            color: var(--gray-900);
             margin-bottom: 5px;
         }
 
@@ -126,7 +99,6 @@
             border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s;
-            background: white;
         }
 
         .form-input:focus, .form-select:focus {
@@ -156,25 +128,16 @@
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }
 
-        .btn-primary:active {
-            transform: translateY(1px);
-        }
-
         .alert {
-            padding: 12px 16px;
+            padding: 12px;
             border-radius: 12px;
             margin-top: 15px;
             font-size: 14px;
             display: none;
-        }
-
-        .alert-error {
             background: #fee;
             color: var(--danger);
-            border: 1px solid #fdd;
         }
 
-        /* ========== APP CONTAINER ========== */
         .app-container {
             display: none;
             min-height: 100vh;
@@ -182,11 +145,10 @@
             padding-bottom: 80px;
         }
 
-        /* ========== HEADER ========== */
         .app-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 20px 20px 30px 20px;
+            padding: 20px 20px 30px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -197,23 +159,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
 
         .user-welcome h2 {
             font-size: 24px;
-            font-weight: 700;
             margin-bottom: 4px;
         }
 
         .user-welcome p {
             font-size: 14px;
             opacity: 0.9;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
         }
 
         .icon-btn {
@@ -228,16 +183,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
         }
 
-        .icon-btn:active {
-            transform: scale(0.95);
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* ========== STATS CARDS ========== */
         .stats-container {
             display: grid;
             gap: 12px;
@@ -250,23 +197,11 @@
             border-radius: 16px;
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:active {
-            transform: scale(0.98);
         }
 
         .stat-card.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-        }
-
-        .stat-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
         }
 
         .stat-icon {
@@ -278,29 +213,18 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-        }
-
-        .stat-card.primary .stat-icon {
-            background: rgba(255,255,255,0.25);
-        }
-
-        .stat-info h3 {
-            font-size: 13px;
-            font-weight: 500;
-            opacity: 0.8;
-            margin-bottom: 4px;
+            margin-bottom: 12px;
         }
 
         .stat-value {
             font-size: 32px;
             font-weight: 700;
-            line-height: 1;
+            margin-bottom: 4px;
         }
 
         .stat-subtitle {
             font-size: 14px;
             opacity: 0.7;
-            margin-top: 8px;
         }
 
         .stats-grid {
@@ -317,41 +241,83 @@
             font-size: 24px;
         }
 
-        /* ========== CONTENT SECTIONS ========== */
         .content-section {
             padding: 20px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
         }
 
         .section-title {
             font-size: 20px;
             font-weight: 700;
-            color: var(--gray-900);
+            margin-bottom: 16px;
         }
 
-        .btn-text {
-            background: none;
-            border: none;
-            color: var(--primary);
+        .sales-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sale-item {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .sale-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .sale-client {
+            font-size: 16px;
             font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s;
+            margin-bottom: 4px;
         }
 
-        .btn-text:active {
-            background: var(--gray-100);
+        .sale-date {
+            font-size: 13px;
+            color: var(--gray-600);
         }
 
-        /* ========== RANKING ========== */
+        .sale-amount {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .sale-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .commission-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pago { background: #d1fae5; color: #065f46; }
+        .status-pendente { background: #fef3c7; color: #92400e; }
+        .status-parcial { background: #dbeafe; color: #1e40af; }
+
+        .installments {
+            font-size: 13px;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+
         .ranking-list {
             display: flex;
             flex-direction: column;
@@ -366,18 +332,16 @@
             align-items: center;
             gap: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: all 0.3s;
-        }
-
-        .rank-item:active {
-            transform: scale(0.98);
         }
 
         .rank-item.me {
             background: linear-gradient(135deg, #ecfdf5, #d1fae5);
             border: 2px solid var(--success);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
+
+        .rank-item.gold { border-left: 4px solid #fbbf24; }
+        .rank-item.silver { border-left: 4px solid #9ca3af; }
+        .rank-item.bronze { border-left: 4px solid #f97316; }
 
         .rank-position {
             font-size: 24px;
@@ -385,10 +349,6 @@
             min-width: 40px;
             text-align: center;
         }
-
-        .rank-item.gold .rank-position { color: #fbbf24; }
-        .rank-item.silver .rank-position { color: #9ca3af; }
-        .rank-item.bronze .rank-position { color: #f97316; }
 
         .rank-medal {
             font-size: 32px;
@@ -416,107 +376,6 @@
             text-align: right;
         }
 
-        .rank-trend {
-            font-size: 12px;
-            color: var(--gray-600);
-            text-align: right;
-            margin-top: 2px;
-        }
-
-        /* ========== SALES LIST ========== */
-        .sales-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .sale-item {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        .sale-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 12px;
-        }
-
-        .sale-client {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .sale-date {
-            font-size: 13px;
-            color: var(--gray-600);
-        }
-
-        .sale-amount {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--gray-900);
-            text-align: right;
-        }
-
-        .sale-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 12px;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .commission-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .commission-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--success);
-        }
-
-        .commission-percent {
-            font-size: 13px;
-            color: var(--gray-600);
-        }
-
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-pago {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-pendente {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-parcial {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .installments {
-            font-size: 13px;
-            color: var(--gray-600);
-            margin-top: 4px;
-        }
-
-        /* ========== BOTTOM NAV ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -525,7 +384,6 @@
             background: white;
             border-top: 1px solid var(--gray-200);
             padding: 8px 0;
-            padding-bottom: calc(8px + env(safe-area-inset-bottom));
             display: flex;
             justify-content: space-around;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
@@ -543,8 +401,6 @@
             background: none;
             color: var(--gray-600);
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
         }
 
         .nav-item.active {
@@ -553,11 +409,6 @@
 
         .nav-item .icon {
             font-size: 24px;
-            transition: transform 0.3s;
-        }
-
-        .nav-item.active .icon {
-            transform: scale(1.1);
         }
 
         .nav-item .label {
@@ -565,42 +416,14 @@
             font-weight: 600;
         }
 
-        .badge {
-            position: absolute;
-            top: 4px;
-            right: 20%;
-            background: var(--danger);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 10px;
-            min-width: 18px;
-            text-align: center;
-        }
-
-        /* ========== SCREENS ========== */
         .screen {
             display: none;
         }
 
         .screen.active {
             display: block;
-            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* ========== MODALS ========== */
         .modal {
             display: none;
             position: fixed;
@@ -627,22 +450,10 @@
             max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalSlideUp 0.3s ease;
-        }
-
-        @keyframes modalSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .modal-header {
-            padding: 24px 24px 16px 24px;
+            padding: 24px 24px 16px;
             border-bottom: 1px solid var(--gray-200);
             display: flex;
             justify-content: space-between;
@@ -663,16 +474,12 @@
             color: var(--gray-600);
             font-size: 20px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .modal-body {
             padding: 24px;
         }
 
-        /* ========== FAB BUTTON ========== */
         .fab {
             position: fixed;
             bottom: 90px;
@@ -690,58 +497,8 @@
             align-items: center;
             justify-content: center;
             z-index: 50;
-            transition: all 0.3s;
         }
 
-        .fab:active {
-            transform: scale(0.9);
-        }
-
-        /* ========== EMPTY STATE ========== */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            opacity: 0.3;
-            margin-bottom: 16px;
-        }
-
-        .empty-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 8px;
-        }
-
-        .empty-text {
-            font-size: 14px;
-            color: var(--gray-600);
-        }
-
-        /* ========== LOADING ========== */
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--gray-200);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== CHART CONTAINER ========== */
         .chart-card {
             background: white;
             border-radius: 16px;
@@ -755,58 +512,26 @@
             position: relative;
         }
 
-        /* ========== UTILITIES ========== */
-        .mt-20 { margin-top: 20px; }
-        .mb-20 { margin-bottom: 20px; }
-        .text-center { text-align: center; }
         .hidden { display: none !important; }
-
-        /* ========== RESPONSIVE ========== */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 768px;
-                margin: 0 auto;
-                box-shadow: 0 0 40px rgba(0,0,0,0.1);
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-icon {
+            font-size: 64px;
+            opacity: 0.3;
+            margin-bottom: 16px;
+        }
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        /* ========== ADMIN SPECIFIC ========== */
         .admin-grid {
             display: grid;
             gap: 12px;
         }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 8px;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--gray-300);
-            color: var(--gray-700);
-        }
-
         .user-card {
             background: white;
             border-radius: 12px;
@@ -816,27 +541,38 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .user-info h4 {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 4px;
         }
-
         .user-info p {
             font-size: 13px;
             color: var(--gray-600);
         }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-secondary { background: var(--gray-200); color: var(--gray-700); }
     </style>
 </head>
 <body>
-    <!-- ========== LOGIN SCREEN ========== -->
     <div id="loginScreen" class="login-screen">
         <div class="login-card">
             <div class="logo">
                 <div class="logo-icon">💰</div>
                 <h1>Comissões PRO</h1>
-                <p>Gestão inteligente de comissões</p>
+                <p>Sistema offline - 100% funcional</p>
             </div>
 
             <form onsubmit="handleLogin(event)">
@@ -863,41 +599,29 @@
                     <span>Entrar</span>
                 </button>
 
-                <div id="loginError" class="alert alert-error"></div>
+                <div id="loginError" class="alert"></div>
             </form>
         </div>
     </div>
 
-    <!-- ========== APP CONTAINER ========== -->
     <div id="appContainer" class="app-container">
-        <!-- Header -->
         <div class="app-header">
             <div class="header-top">
                 <div class="user-welcome">
                     <h2 id="userName">Olá! 👋</h2>
-                    <p id="userSubtitle">Carregando...</p>
+                    <p id="userSubtitle">Sistema pronto</p>
                 </div>
-                <div class="header-actions">
-                    <button class="icon-btn" onclick="refreshData()">🔄</button>
-                    <button class="icon-btn" onclick="logout()">🚪</button>
-                </div>
+                <button class="icon-btn" onclick="logout()">🚪</button>
             </div>
         </div>
 
-        <!-- ========== VENDEDOR SCREENS ========== -->
         <div id="vendedorApp" class="hidden">
-            <!-- Home Screen -->
             <div id="homeScreen" class="screen active">
                 <div class="stats-container">
                     <div class="stat-card primary">
-                        <div class="stat-header">
-                            <div class="stat-icon">💰</div>
-                            <div class="stat-info">
-                                <h3>A receber</h3>
-                            </div>
-                        </div>
-                        <div class="stat-value" id="vendedorPendente">R$ 0,00</div>
-                        <div class="stat-subtitle">Comissões pendentes</div>
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="vendedorPendente">R$ 0</div>
+                        <div class="stat-subtitle">A receber</div>
                     </div>
 
                     <div class="stats-grid">
@@ -911,22 +635,12 @@
                             <div class="stat-value" style="color: var(--primary);" id="vendedorRank">-</div>
                             <div class="stat-subtitle">Posição</div>
                         </div>
-                        <div class="stat-card stat-small">
-                            <div class="stat-icon" style="background: #fef3c7;">📈</div>
-                            <div class="stat-value" id="vendedorVendas">0</div>
-                            <div class="stat-subtitle">Vendas</div>
-                        </div>
-                        <div class="stat-card stat-small">
-                            <div class="stat-icon" style="background: #e0e7ff;">💎</div>
-                            <div class="stat-value" id="vendedorTicket">R$ 0</div>
-                            <div class="stat-subtitle">Ticket médio</div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="content-section">
                     <div class="chart-card">
-                        <h3 class="section-title" style="margin-bottom: 16px;">📊 Evolução Mensal</h3>
+                        <h3 class="section-title">📊 Evolução</h3>
                         <div class="chart-container">
                             <canvas id="vendedorChart"></canvas>
                         </div>
@@ -934,37 +648,20 @@
                 </div>
             </div>
 
-            <!-- Sales Screen -->
             <div id="salesScreen" class="screen">
                 <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">📋 Minhas Vendas</h2>
-                    </div>
-                    <div id="vendedorSalesList" class="sales-list">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Carregando vendas...</p>
-                        </div>
-                    </div>
+                    <h2 class="section-title">📋 Minhas Vendas</h2>
+                    <div id="vendedorSalesList" class="sales-list"></div>
                 </div>
             </div>
 
-            <!-- Ranking Screen -->
             <div id="rankingScreen" class="screen">
                 <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">🏆 Ranking da Equipe</h2>
-                    </div>
-                    <div id="vendedorRankingList" class="ranking-list">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Carregando ranking...</p>
-                        </div>
-                    </div>
+                    <h2 class="section-title">🏆 Ranking</h2>
+                    <div id="vendedorRankingList" class="ranking-list"></div>
                 </div>
             </div>
 
-            <!-- Bottom Navigation -->
             <div class="bottom-nav">
                 <button class="nav-item active" onclick="switchScreen('home')">
                     <span class="icon">🏠</span>
@@ -981,91 +678,52 @@
             </div>
         </div>
 
-        <!-- ========== ADMIN SCREENS ========== -->
         <div id="adminApp" class="hidden">
-            <!-- Admin Dashboard -->
             <div id="adminDashboard" class="screen active">
                 <div class="stats-container">
                     <div class="stats-grid">
                         <div class="stat-card stat-small">
                             <div class="stat-icon" style="background: #dbeafe;">📊</div>
                             <div class="stat-value" id="adminTotalVendas">0</div>
-                            <div class="stat-subtitle">Total vendas</div>
+                            <div class="stat-subtitle">Vendas</div>
                         </div>
                         <div class="stat-card stat-small">
                             <div class="stat-icon" style="background: #d1fae5;">💰</div>
                             <div class="stat-value" id="adminFaturamento">R$ 0</div>
                             <div class="stat-subtitle">Faturamento</div>
                         </div>
-                        <div class="stat-card stat-small">
-                            <div class="stat-icon" style="background: #fef3c7;">💎</div>
-                            <div class="stat-value" id="adminComissoesPagas">R$ 0</div>
-                            <div class="stat-subtitle">Pagas</div>
-                        </div>
-                        <div class="stat-card stat-small">
-                            <div class="stat-icon" style="background: #fee2e2;">⏳</div>
-                            <div class="stat-value" id="adminComissoesPend">R$ 0</div>
-                            <div class="stat-subtitle">Pendentes</div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="content-section">
                     <div class="chart-card">
-                        <h3 class="section-title" style="margin-bottom: 16px;">📈 Panorama de Vendas</h3>
+                        <h3 class="section-title">📈 Panorama</h3>
                         <div class="chart-container">
                             <canvas id="adminChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="section-header">
-                        <h2 class="section-title">🏆 Top Vendedores</h2>
-                    </div>
+                    <h2 class="section-title">🏆 Top Vendedores</h2>
                     <div id="adminRankingList" class="ranking-list"></div>
                 </div>
             </div>
 
-            <!-- Admin Sales -->
             <div id="adminSalesScreen" class="screen">
                 <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">💰 Todas as Vendas</h2>
-                    </div>
-                    <div id="adminSalesList" class="sales-list">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Carregando vendas...</p>
-                        </div>
-                    </div>
+                    <h2 class="section-title">💰 Todas as Vendas</h2>
+                    <div id="adminSalesList" class="sales-list"></div>
                 </div>
             </div>
 
-            <!-- Admin Team -->
             <div id="adminTeamScreen" class="screen">
                 <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">👥 Equipe</h2>
-                        <button class="btn-text" onclick="openModal('addUserModal')">+ Adicionar</button>
-                    </div>
+                    <h2 class="section-title">👥 Equipe</h2>
                     <div id="adminUsersList" class="admin-grid"></div>
                 </div>
             </div>
 
-            <!-- Admin Config -->
-            <div id="adminConfigScreen" class="screen">
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">⚙️ Regras de Comissão</h2>
-                        <button class="btn-text" onclick="openModal('addRuleModal')">+ Adicionar</button>
-                    </div>
-                    <div id="adminRulesList" class="admin-grid"></div>
-                </div>
-            </div>
-
-            <!-- FAB -->
             <button class="fab" onclick="openModal('addSaleModal')">+</button>
 
-            <!-- Bottom Navigation -->
             <div class="bottom-nav">
                 <button class="nav-item active" onclick="switchAdminScreen('dashboard')">
                     <span class="icon">📊</span>
@@ -1079,16 +737,10 @@
                     <span class="icon">👥</span>
                     <span class="label">Equipe</span>
                 </button>
-                <button class="nav-item" onclick="switchAdminScreen('config')">
-                    <span class="icon">⚙️</span>
-                    <span class="label">Config</span>
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- ========== MODALS ========== -->
-    <!-- Add Sale Modal -->
     <div id="addSaleModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1106,7 +758,7 @@
                         <input type="text" id="saleCliente" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Valor da Venda (R$)</label>
+                        <label class="form-label">Valor (R$)</label>
                         <input type="number" id="saleValor" class="form-input" step="0.01" required>
                     </div>
                     <div class="form-group">
@@ -1135,13 +787,12 @@
                             <option value="pago">Pago</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Adicionar Venda</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Add User Modal -->
     <div id="addUserModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1162,125 +813,74 @@
                         <label class="form-label">Senha</label>
                         <input type="password" id="newUserPassword" class="form-input" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Adicionar Vendedor</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Rule Modal -->
-    <div id="addRuleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📋 Nova Regra</h3>
-                <button class="modal-close" onclick="closeModal('addRuleModal')">×</button>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="handleAddRule(event)">
-                    <div class="form-group">
-                        <label class="form-label">Nome da Regra</label>
-                        <input type="text" id="ruleName" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Percentual (%)</label>
-                        <input type="number" id="rulePercentage" class="form-input" step="0.1" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Parcelas Padrão</label>
-                        <select id="ruleInstallments" class="form-select">
-                            <option value="1">1x</option>
-                            <option value="2">2x</option>
-                            <option value="3">3x</option>
-                            <option value="4">4x</option>
-                            <option value="5">5x</option>
-                            <option value="6">6x</option>
-                            <option value="7">7x</option>
-                            <option value="8">8x</option>
-                            <option value="9">9x</option>
-                            <option value="10">10x</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Adicionar Regra</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Global variables
+        // STORAGE LOCAL - SEM FIREBASE!
         let currentUser = null;
-        let salesData = [];
-        let users = [];
-        let commissionRules = [];
         let vendedorChart = null;
         let adminChart = null;
-        let salesListener = null;
-        let usersListener = null;
-        let rulesListener = null;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', async function() {
-            await initializeFirebase();
+        // Funções de Storage
+        function getUsers() {
+            const data = localStorage.getItem('users');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function getSales() {
+            const data = localStorage.getItem('sales');
+            if (!data) return [];
+            return JSON.parse(data).map(sale => ({
+                ...sale,
+                data: new Date(sale.data)
+            }));
+        }
+
+        function saveSales(sales) {
+            localStorage.setItem('sales', JSON.stringify(sales));
+        }
+
+        // INIT
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ App inicializado - Sistema OFFLINE');
+            initData();
         });
 
-        async function initializeFirebase() {
-            try {
-                await loadUsers();
-                await loadCommissionRules();
-                
-                if (users.length === 0) {
-                    await createInitialData();
-                }
-                
-                console.log('✅ Firebase pronto!');
-            } catch (error) {
-                console.error('❌ Erro Firebase:', error);
-            }
-        }
-
-        async function createInitialData() {
-            const { db, collection, addDoc } = window.firebase;
+        function initData() {
+            let users = getUsers();
             
-            const initialUsers = [
-                { username: 'joao', password: '123', type: 'vendedor', name: 'João Silva' },
-                { username: 'maria', password: '123', type: 'vendedor', name: 'Maria Santos' },
-                { username: 'pedro', password: '123', type: 'vendedor', name: 'Pedro Costa' },
-                { username: 'admin', password: 'admin123', type: 'admin', name: 'Administrador' }
-            ];
+            if (users.length === 0) {
+                console.log('📝 Criando dados iniciais...');
+                users = [
+                    { id: '1', username: 'joao', password: '123', type: 'vendedor', name: 'João Silva' },
+                    { id: '2', username: 'maria', password: '123', type: 'vendedor', name: 'Maria Santos' },
+                    { id: '3', username: 'pedro', password: '123', type: 'vendedor', name: 'Pedro Costa' },
+                    { id: '4', username: 'admin', password: 'admin123', type: 'admin', name: 'Administrador' }
+                ];
+                saveUsers(users);
 
-            const initialRules = [
-                { name: 'Padrão', percentage: 5, installments: 1 },
-                { name: 'Vendas acima de R$ 5000', percentage: 7, installments: 2 },
-                { name: 'Vendas acima de R$ 10000', percentage: 10, installments: 3 }
-            ];
-
-            for (const user of initialUsers) {
-                await addDoc(collection(db, 'users'), user);
-            }
-
-            for (const rule of initialRules) {
-                await addDoc(collection(db, 'commissionRules'), rule);
-            }
-
-            await generateSampleSales();
-        }
-
-        async function generateSampleSales() {
-            const { db, collection, addDoc } = window.firebase;
-            const months = ['2024-01-15', '2024-02-20', '2024-03-10', '2024-04-05', '2024-05-12'];
-            const vendedores = ['joao', 'maria', 'pedro'];
-            const clientes = ['Empresa ABC', 'Empresa XYZ', 'Empresa DEF', 'Empresa GHI', 'Empresa JKL'];
-            
-            for (const month of months) {
-                for (const vendedor of vendedores) {
-                    const numVendas = Math.floor(Math.random() * 3) + 1;
-                    for (let i = 0; i < numVendas; i++) {
-                        const valor = Math.floor(Math.random() * 15000) + 1000;
-                        const comissaoPerc = valor > 10000 ? 10 : valor > 5000 ? 7 : 5;
-                        const installments = Math.floor(Math.random() * 10) + 1;
-                        const paidInstallments = Math.floor(Math.random() * (installments + 1));
+                const sales = [];
+                const months = ['2024-01-15', '2024-02-20', '2024-03-10'];
+                const vendedores = ['joao', 'maria', 'pedro'];
+                const clientes = ['Empresa ABC', 'Empresa XYZ', 'Empresa DEF'];
+                
+                let saleId = 1;
+                for (const month of months) {
+                    for (const vendedor of vendedores) {
+                        const valor = Math.floor(Math.random() * 10000) + 2000;
+                        const comissaoPerc = 5;
+                        const installments = Math.floor(Math.random() * 5) + 1;
                         
-                        await addDoc(collection(db, 'sales'), {
+                        sales.push({
+                            id: String(saleId++),
                             data: new Date(month),
                             vendedor: vendedor,
                             cliente: clientes[Math.floor(Math.random() * clientes.length)],
@@ -1288,74 +888,16 @@
                             comissaoPerc: comissaoPerc,
                             comissaoValor: (valor * comissaoPerc) / 100,
                             installments: installments,
-                            paidInstallments: paidInstallments,
-                            createdAt: new Date()
+                            paidInstallments: Math.floor(Math.random() * (installments + 1))
                         });
                     }
                 }
+                saveSales(sales);
+                console.log('✅ Dados criados!');
             }
         }
 
-        async function loadUsers() {
-            const { db, collection, onSnapshot } = window.firebase;
-            
-            if (usersListener) usersListener();
-            usersListener = onSnapshot(collection(db, 'users'), (snapshot) => {
-                users = [];
-                snapshot.forEach((doc) => {
-                    users.push({ id: doc.id, ...doc.data() });
-                });
-                
-                if (currentUser && currentUser.type === 'admin') {
-                    populateVendedorSelect();
-                    loadAdminUsers();
-                }
-            });
-        }
-
-        async function loadSales() {
-            const { db, collection, onSnapshot, query, orderBy } = window.firebase;
-            
-            if (salesListener) salesListener();
-            salesListener = onSnapshot(query(collection(db, 'sales'), orderBy('data', 'desc')), (snapshot) => {
-                salesData = [];
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    salesData.push({ 
-                        id: doc.id, 
-                        ...data,
-                        data: data.data.toDate()
-                    });
-                });
-                
-                if (currentUser) {
-                    if (currentUser.type === 'vendedor') {
-                        updateVendedorDashboard();
-                    } else {
-                        updateAdminDashboard();
-                    }
-                }
-            });
-        }
-
-        async function loadCommissionRules() {
-            const { db, collection, onSnapshot } = window.firebase;
-            
-            if (rulesListener) rulesListener();
-            rulesListener = onSnapshot(collection(db, 'commissionRules'), (snapshot) => {
-                commissionRules = [];
-                snapshot.forEach((doc) => {
-                    commissionRules.push({ id: doc.id, ...doc.data() });
-                });
-                
-                if (currentUser && currentUser.type === 'admin') {
-                    loadAdminRules();
-                }
-            });
-        }
-
-        // Login
-        async function handleLogin(event) {
+        function handleLogin(event) {
             event.preventDefault();
             
             const userType = document.getElementById('userType').value;
@@ -1363,6 +905,7 @@
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('loginError');
 
+            const users = getUsers();
             const user = users.find(u => 
                 u.username === username && 
                 u.password === password && 
@@ -1373,8 +916,6 @@
                 currentUser = user;
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('appContainer').style.display = 'block';
-                
-                await loadSales();
                 
                 if (userType === 'vendedor') {
                     showVendedorApp();
@@ -1390,10 +931,6 @@
         }
 
         function logout() {
-            if (salesListener) salesListener();
-            if (usersListener) usersListener();
-            if (rulesListener) rulesListener();
-            
             currentUser = null;
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('appContainer').style.display = 'none';
@@ -1412,32 +949,26 @@
 
         function showAdminApp() {
             document.getElementById('adminApp').classList.remove('hidden');
-            document.getElementById('userName').textContent = `Painel Admin ⚙️`;
+            document.getElementById('userName').textContent = `Admin ⚙️`;
             populateVendedorSelect();
             updateAdminDashboard();
         }
 
         function updateVendedorDashboard() {
-            const myS
-
-ales = salesData.filter(s => s.vendedor === currentUser.username);
-            const totalComissoes = myS.reduce((sum, s) => sum + s.comissaoValor, 0);
-            const comissoesPagas = myS.reduce((sum, s) => sum + (s.paidInstallments || 0) * (s.comissaoValor / s.installments), 0);
+            const sales = getSales();
+            const minhasVendas = sales.filter(s => s.vendedor === currentUser.username);
+            const totalComissoes = minhasVendas.reduce((sum, s) => sum + s.comissaoValor, 0);
+            const comissoesPagas = minhasVendas.reduce((sum, s) => sum + (s.paidInstallments || 0) * (s.comissaoValor / s.installments), 0);
             const comissoesPendentes = totalComissoes - comissoesPagas;
-            const totalVendas = myS.length;
-            const totalVendido = myS.reduce((sum, s) => sum + s.valor, 0);
-            const ticketMedio = totalVendas > 0 ? totalVendido / totalVendas : 0;
             
             document.getElementById('vendedorPendente').textContent = formatCurrency(comissoesPendentes);
             document.getElementById('vendedorPago').textContent = formatCurrency(comissoesPagas);
-            document.getElementById('vendedorVendas').textContent = totalVendas;
-            document.getElementById('vendedorTicket').textContent = formatCurrency(ticketMedio);
             
             const ranking = calculateRanking();
             const position = ranking.findIndex(r => r.vendedor === currentUser.username) + 1;
             document.getElementById('vendedorRank').textContent = position > 0 ? `${position}º` : '-';
             
-            document.getElementById('userSubtitle').textContent = `${totalVendas} vendas • ${position}º lugar`;
+            document.getElementById('userSubtitle').textContent = `${minhasVendas.length} vendas`;
             
             loadVendedorSales();
             loadVendedorRanking();
@@ -1446,14 +977,15 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
 
         function loadVendedorSales() {
             const container = document.getElementById('vendedorSalesList');
-            const myS = salesData.filter(s => s.vendedor === currentUser.username);
+            const sales = getSales();
+            const minhasVendas = sales.filter(s => s.vendedor === currentUser.username);
             
-            if (myS.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Nenhuma venda ainda</div><div class="empty-text">Suas vendas aparecerão aqui</div></div>';
+            if (minhasVendas.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Nenhuma venda</div></div>';
                 return;
             }
             
-            container.innerHTML = myS.map(sale => {
+            container.innerHTML = minhasVendas.map(sale => {
                 const paid = sale.paidInstallments || 0;
                 const total = sale.installments || 1;
                 const status = paid === 0 ? 'pendente' : paid === total ? 'pago' : 'parcial';
@@ -1469,10 +1001,7 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                             <div class="sale-amount">${formatCurrency(sale.valor)}</div>
                         </div>
                         <div class="sale-footer">
-                            <div class="commission-info">
-                                <div class="commission-value">${formatCurrency(sale.comissaoValor)}</div>
-                                <div class="commission-percent">${sale.comissaoPerc}%</div>
-                            </div>
+                            <div class="commission-value">${formatCurrency(sale.comissaoValor)}</div>
                             <div>
                                 <div class="status-badge status-${status}">${statusText}</div>
                                 <div class="installments">${paid}/${total} parcelas</div>
@@ -1501,9 +1030,7 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                             <div class="rank-name">${displayName}</div>
                             <div class="rank-stats">${item.totalVendas} vendas</div>
                         </div>
-                        <div>
-                            <div class="rank-value">${formatCurrency(item.totalComissao)}</div>
-                        </div>
+                        <div class="rank-value">${formatCurrency(item.totalComissao)}</div>
                     </div>
                 `;
             }).join('');
@@ -1513,34 +1040,16 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
             const ctx = document.getElementById('vendedorChart')?.getContext('2d');
             if (!ctx) return;
             
-            const myS = salesData.filter(s => s.vendedor === currentUser.username);
+            const sales = getSales();
+            const minhasVendas = sales.filter(s => s.vendedor === currentUser.username);
             const monthlyData = {};
-            const teamMonthlyData = {};
             
-            myS.forEach(sale => {
+            minhasVendas.forEach(sale => {
                 const month = new Date(sale.data).toLocaleDateString('pt-BR', { month: 'short' });
                 monthlyData[month] = (monthlyData[month] || 0) + sale.comissaoValor;
             });
             
-            salesData.forEach(sale => {
-                const month = new Date(sale.data).toLocaleDateString('pt-BR', { month: 'short' });
-                if (!teamMonthlyData[month]) teamMonthlyData[month] = [];
-                teamMonthlyData[month].push(sale.comissaoValor);
-            });
-            
-            Object.keys(teamMonthlyData).forEach(month => {
-                const vendedoresNoMes = new Set();
-                salesData.filter(sale => {
-                    const saleMonth = new Date(sale.data).toLocaleDateString('pt-BR', { month: 'short' });
-                    return saleMonth === month;
-                }).forEach(sale => vendedoresNoMes.add(sale.vendedor));
-                
-                const total = vendedoresNoMes.size;
-                const sum = teamMonthlyData[month].reduce((a, b) => a + b, 0);
-                teamMonthlyData[month] = total > 0 ? sum / total : 0;
-            });
-            
-            const months = [...new Set([...Object.keys(monthlyData), ...Object.keys(teamMonthlyData)])].sort();
+            const months = Object.keys(monthlyData).sort();
             
             if (vendedorChart) vendedorChart.destroy();
             
@@ -1548,35 +1057,21 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                 type: 'line',
                 data: {
                     labels: months,
-                    datasets: [
-                        {
-                            label: 'Você',
-                            data: months.map(m => monthlyData[m] || 0),
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Média',
-                            data: months.map(m => teamMonthlyData[m] || 0),
-                            borderColor: '#f59e0b',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.4
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Comissões',
+                        data: months.map(m => monthlyData[m] || 0),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
+                        legend: { display: false }
                     },
                     scales: {
                         y: {
@@ -1591,33 +1086,30 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
         }
 
         function updateAdminDashboard() {
-            const totalVendas = salesData.length;
-            const faturamento = salesData.reduce((sum, s) => sum + s.valor, 0);
-            const totalComissoes = salesData.reduce((sum, s) => sum + s.comissaoValor, 0);
-            const comissoesPagas = salesData.reduce((sum, s) => sum + (s.paidInstallments || 0) * (s.comissaoValor / s.installments), 0);
-            const comissoesPend = totalComissoes - comissoesPagas;
+            const sales = getSales();
+            const totalVendas = sales.length;
+            const faturamento = sales.reduce((sum, s) => sum + s.valor, 0);
             
             document.getElementById('adminTotalVendas').textContent = totalVendas;
             document.getElementById('adminFaturamento').textContent = formatCurrency(faturamento);
-            document.getElementById('adminComissoesPagas').textContent = formatCurrency(comissoesPagas);
-            document.getElementById('adminComissoesPend').textContent = formatCurrency(comissoesPend);
-            
-            document.getElementById('userSubtitle').textContent = `${totalVendas} vendas • ${formatCurrency(faturamento)}`;
             
             loadAdminSales();
             loadAdminRanking();
             createAdminChart();
+            loadAdminUsers();
         }
 
         function loadAdminSales() {
             const container = document.getElementById('adminSalesList');
+            const sales = getSales();
+            const users = getUsers();
             
-            if (salesData.length === 0) {
+            if (sales.length === 0) {
                 container.innerHTML = '<div class="empty-state"><div class="empty-icon">💰</div><div class="empty-title">Nenhuma venda</div></div>';
                 return;
             }
             
-            container.innerHTML = salesData.map(sale => {
+            container.innerHTML = sales.map(sale => {
                 const vendedorName = users.find(u => u.username === sale.vendedor)?.name || sale.vendedor;
                 const paid = sale.paidInstallments || 0;
                 const total = sale.installments || 1;
@@ -1634,18 +1126,15 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                             <div class="sale-amount">${formatCurrency(sale.valor)}</div>
                         </div>
                         <div class="sale-footer">
-                            <div class="commission-info">
-                                <div class="commission-value">${formatCurrency(sale.comissaoValor)}</div>
-                                <div class="commission-percent">${sale.comissaoPerc}%</div>
-                            </div>
+                            <div class="commission-value">${formatCurrency(sale.comissaoValor)}</div>
                             <div>
                                 <div class="status-badge status-${status}">${statusText}</div>
-                                <div class="installments">${paid}/${total} parcelas</div>
+                                <div class="installments">${paid}/${total}</div>
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <button class="btn btn-sm btn-secondary" onclick="updateInstallments('${sale.id}', ${paid}, ${total})">📝 Parcelas</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteSale('${sale.id}')">🗑️</button>
+                            <button class="btn-sm btn-secondary" onclick="updateInstallments('${sale.id}', ${paid}, ${total})">📝</button>
+                            <button class="btn-sm btn-danger" onclick="deleteSale('${sale.id}')">🗑️</button>
                         </div>
                     </div>
                 `;
@@ -1655,6 +1144,7 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
         function loadAdminRanking() {
             const container = document.getElementById('adminRankingList');
             const ranking = calculateRanking();
+            const users = getUsers();
             
             container.innerHTML = ranking.map((item, index) => {
                 const vendedorName = users.find(u => u.username === item.vendedor)?.name || item.vendedor;
@@ -1669,9 +1159,7 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                             <div class="rank-name">${vendedorName}</div>
                             <div class="rank-stats">${item.totalVendas} vendas</div>
                         </div>
-                        <div>
-                            <div class="rank-value">${formatCurrency(item.totalComissao)}</div>
-                        </div>
+                        <div class="rank-value">${formatCurrency(item.totalComissao)}</div>
                     </div>
                 `;
             }).join('');
@@ -1681,13 +1169,12 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
             const ctx = document.getElementById('adminChart')?.getContext('2d');
             if (!ctx) return;
             
+            const sales = getSales();
             const monthlyData = {};
-            const monthlyCount = {};
             
-            salesData.forEach(sale => {
+            sales.forEach(sale => {
                 const month = new Date(sale.data).toLocaleDateString('pt-BR', { month: 'short' });
                 monthlyData[month] = (monthlyData[month] || 0) + sale.valor;
-                monthlyCount[month] = (monthlyCount[month] || 0) + 1;
             });
             
             const months = Object.keys(monthlyData).sort();
@@ -1698,49 +1185,23 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                 type: 'bar',
                 data: {
                     labels: months,
-                    datasets: [
-                        {
-                            label: 'Faturamento',
-                            data: months.map(m => monthlyData[m] || 0),
-                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Vendas',
-                            data: months.map(m => monthlyCount[m] || 0),
-                            type: 'line',
-                            borderColor: '#f59e0b',
-                            borderWidth: 3,
-                            fill: false,
-                            tension: 0.4,
-                            yAxisID: 'y1'
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Faturamento',
+                        data: months.map(m => monthlyData[m] || 0),
+                        backgroundColor: 'rgba(99, 102, 241, 0.8)'
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
+                        legend: { display: false }
                     },
                     scales: {
                         y: {
-                            type: 'linear',
-                            position: 'left',
                             beginAtZero: true,
                             ticks: {
                                 callback: (value) => formatCurrency(value)
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            position: 'right',
-                            beginAtZero: true,
-                            grid: {
-                                drawOnChartArea: false,
                             }
                         }
                     }
@@ -1750,6 +1211,7 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
 
         function loadAdminUsers() {
             const container = document.getElementById('adminUsersList');
+            const users = getUsers();
             const vendedores = users.filter(u => u.type === 'vendedor');
             
             container.innerHTML = vendedores.map(user => `
@@ -1759,31 +1221,18 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                         <p>@${user.username}</p>
                     </div>
                     <div class="action-buttons">
-                        <button class="btn btn-sm btn-secondary" onclick="editUser('${user.id}', '${user.name}')">✏️</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.id}')">🗑️</button>
+                        <button class="btn-sm btn-secondary" onclick="editUser('${user.id}', '${user.name}')">✏️</button>
+                        <button class="btn-sm btn-danger" onclick="deleteUser('${user.id}')">🗑️</button>
                     </div>
-                </div>
-            `).join('');
-        }
-
-        function loadAdminRules() {
-            const container = document.getElementById('adminRulesList');
-            
-            container.innerHTML = commissionRules.map(rule => `
-                <div class="user-card">
-                    <div class="user-info">
-                        <h4>${rule.name}</h4>
-                        <p>${rule.percentage}% • ${rule.installments}x</p>
-                    </div>
-                    <button class="btn btn-sm btn-danger" onclick="deleteRule('${rule.id}')">🗑️</button>
                 </div>
             `).join('');
         }
 
         function calculateRanking() {
+            const sales = getSales();
             const stats = {};
             
-            salesData.forEach(sale => {
+            sales.forEach(sale => {
                 if (!stats[sale.vendedor]) {
                     stats[sale.vendedor] = {
                         vendedor: sale.vendedor,
@@ -1799,16 +1248,6 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
             return Object.values(stats).sort((a, b) => b.totalComissao - a.totalComissao);
         }
 
-        // Modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        // Navigation
         function switchScreen(screen) {
             document.querySelectorAll('#vendedorApp .screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('#vendedorApp .nav-item').forEach(n => n.classList.remove('active'));
@@ -1827,187 +1266,136 @@ ales = salesData.filter(s => s.vendedor === currentUser.username);
                 document.getElementById('adminSalesScreen').classList.add('active');
             } else if (screen === 'team') {
                 document.getElementById('adminTeamScreen').classList.add('active');
-            } else if (screen === 'config') {
-                document.getElementById('adminConfigScreen').classList.add('active');
             }
             
             event.target.closest('.nav-item').classList.add('active');
         }
 
-        // Form handlers
-        async function handleAddSale(event) {
-            event.preventDefault();
-            
-            try {
-                const { db, collection, addDoc } = window.firebase;
-                const vendedor = document.getElementById('saleVendedor').value;
-                const cliente = document.getElementById('saleCliente').value;
-                const valor = parseFloat(document.getElementById('saleValor').value);
-                const comissaoPerc = parseFloat(document.getElementById('saleComissao').value);
-                const parcelas = parseInt(document.getElementById('saleParcelas').value);
-                const status = document.getElementById('saleStatus').value;
-                
-                await addDoc(collection(db, 'sales'), {
-                    data: new Date(),
-                    vendedor,
-                    cliente,
-                    valor,
-                    comissaoPerc,
-                    comissaoValor: (valor * comissaoPerc) / 100,
-                    installments: parcelas,
-                    paidInstallments: status === 'pago' ? parcelas : 0,
-                    createdAt: new Date()
-                });
-                
-                closeModal('addSaleModal');
-                event.target.reset();
-                alert('✅ Venda adicionada!');
-            } catch (error) {
-                console.error(error);
-                alert('❌ Erro ao adicionar venda');
-            }
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
         }
 
-        async function handleAddUser(event) {
-            event.preventDefault();
-            
-            try {
-                const { db, collection, addDoc } = window.firebase;
-                const name = document.getElementById('newUserName').value;
-                const username = document.getElementById('newUsername').value;
-                const password = document.getElementById('newUserPassword').value;
-                
-                await addDoc(collection(db, 'users'), {
-                    name,
-                    username,
-                    password,
-                    type: 'vendedor'
-                });
-                
-                closeModal('addUserModal');
-                event.target.reset();
-                alert('✅ Vendedor adicionado!');
-            } catch (error) {
-                console.error(error);
-                alert('❌ Erro ao adicionar vendedor');
-            }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
         }
 
-        async function handleAddRule(event) {
+        function handleAddSale(event) {
             event.preventDefault();
             
-            try {
-                const { db, collection, addDoc } = window.firebase;
-                const name = document.getElementById('ruleName').value;
-                const percentage = parseFloat(document.getElementById('rulePercentage').value);
-                const installments = parseInt(document.getElementById('ruleInstallments').value);
-                
-                await addDoc(collection(db, 'commissionRules'), {
-                    name,
-                    percentage,
-                    installments
-                });
-                
-                closeModal('addRuleModal');
-                event.target.reset();
-                alert('✅ Regra adicionada!');
-            } catch (error) {
-                console.error(error);
-                alert('❌ Erro ao adicionar regra');
-            }
+            const vendedor = document.getElementById('saleVendedor').value;
+            const cliente = document.getElementById('saleCliente').value;
+            const valor = parseFloat(document.getElementById('saleValor').value);
+            const comissaoPerc = parseFloat(document.getElementById('saleComissao').value);
+            const parcelas = parseInt(document.getElementById('saleParcelas').value);
+            const status = document.getElementById('saleStatus').value;
+            
+            const sales = getSales();
+            const newId = String(sales.length + 1);
+            
+            sales.push({
+                id: newId,
+                data: new Date(),
+                vendedor,
+                cliente,
+                valor,
+                comissaoPerc,
+                comissaoValor: (valor * comissaoPerc) / 100,
+                installments: parcelas,
+                paidInstallments: status === 'pago' ? parcelas : 0
+            });
+            
+            saveSales(sales);
+            closeModal('addSaleModal');
+            event.target.reset();
+            updateAdminDashboard();
+            alert('✅ Venda adicionada!');
         }
 
-        async function updateInstallments(saleId, current, total) {
+        function handleAddUser(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('newUserName').value;
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newUserPassword').value;
+            
+            const users = getUsers();
+            const newId = String(users.length + 1);
+            
+            users.push({
+                id: newId,
+                name,
+                username,
+                password,
+                type: 'vendedor'
+            });
+            
+            saveUsers(users);
+            closeModal('addUserModal');
+            event.target.reset();
+            loadAdminUsers();
+            populateVendedorSelect();
+            alert('✅ Vendedor adicionado!');
+        }
+
+        function updateInstallments(saleId, current, total) {
             const newPaid = prompt(`Parcelas pagas (atual: ${current}/${total}):`, current);
             
             if (newPaid !== null && !isNaN(newPaid) && newPaid >= 0 && newPaid <= total) {
-                try {
-                    const { db, doc, updateDoc } = window.firebase;
-                    await updateDoc(doc(db, 'sales', saleId), {
-                        paidInstallments: parseInt(newPaid)
-                    });
+                const sales = getSales();
+                const saleIndex = sales.findIndex(s => s.id === saleId);
+                if (saleIndex > -1) {
+                    sales[saleIndex].paidInstallments = parseInt(newPaid);
+                    saveSales(sales);
+                    updateAdminDashboard();
                     alert('✅ Atualizado!');
-                } catch (error) {
-                    console.error(error);
-                    alert('❌ Erro ao atualizar');
                 }
             }
         }
 
-        async function deleteSale(saleId) {
-            if (confirm('Excluir esta venda?')) {
-                try {
-                    const { db, doc, deleteDoc } = window.firebase;
-                    await deleteDoc(doc(db, 'sales', saleId));
-                    alert('✅ Venda excluída!');
-                } catch (error) {
-                    console.error(error);
-                    alert('❌ Erro ao excluir');
-                }
+        function deleteSale(saleId) {
+            if (confirm('Excluir?')) {
+                const sales = getSales();
+                const filtered = sales.filter(s => s.id !== saleId);
+                saveSales(filtered);
+                updateAdminDashboard();
+                alert('✅ Excluído!');
             }
         }
 
-        async function editUser(userId, currentName) {
+        function editUser(userId, currentName) {
             const newName = prompt('Novo nome:', currentName);
             if (newName && newName.trim()) {
-                try {
-                    const { db, doc, updateDoc } = window.firebase;
-                    await updateDoc(doc(db, 'users', userId), {
-                        name: newName.trim()
-                    });
-                    alert('✅ Nome atualizado!');
-                } catch (error) {
-                    console.error(error);
-                    alert('❌ Erro ao atualizar');
+                const users = getUsers();
+                const userIndex = users.findIndex(u => u.id === userId);
+                if (userIndex > -1) {
+                    users[userIndex].name = newName.trim();
+                    saveUsers(users);
+                    loadAdminUsers();
+                    alert('✅ Atualizado!');
                 }
             }
         }
 
-        async function deleteUser(userId) {
-            if (confirm('Excluir este vendedor?')) {
-                try {
-                    const { db, doc, deleteDoc } = window.firebase;
-                    await deleteDoc(doc(db, 'users', userId));
-                    alert('✅ Vendedor excluído!');
-                } catch (error) {
-                    console.error(error);
-                    alert('❌ Erro ao excluir');
-                }
-            }
-        }
-
-        async function deleteRule(ruleId) {
-            if (confirm('Excluir esta regra?')) {
-                try {
-                    const { db, doc, deleteDoc } = window.firebase;
-                    await deleteDoc(doc(db, 'commissionRules', ruleId));
-                    alert('✅ Regra excluída!');
-                } catch (error) {
-                    console.error(error);
-                    alert('❌ Erro ao excluir');
-                }
+        function deleteUser(userId) {
+            if (confirm('Excluir vendedor?')) {
+                const users = getUsers();
+                const filtered = users.filter(u => u.id !== userId);
+                saveUsers(filtered);
+                loadAdminUsers();
+                populateVendedorSelect();
+                alert('✅ Excluído!');
             }
         }
 
         function populateVendedorSelect() {
             const select = document.getElementById('saleVendedor');
+            const users = getUsers();
             const vendedores = users.filter(u => u.type === 'vendedor');
             
             select.innerHTML = '<option value="">Selecione...</option>' +
                 vendedores.map(v => `<option value="${v.username}">${v.name}</option>`).join('');
         }
 
-        function refreshData() {
-            if (currentUser) {
-                if (currentUser.type === 'vendedor') {
-                    updateVendedorDashboard();
-                } else {
-                    updateAdminDashboard();
-                }
-            }
-        }
-
-        // Utilities
         function formatCurrency(value) {
             return new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
